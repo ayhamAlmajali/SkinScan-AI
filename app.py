@@ -110,21 +110,29 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 
 
-
+import traceback
 
 def load_model_once():
     if not MODEL_PATH.exists():
         return None, f"Deployment weights file not found at {MODEL_PATH}"
 
     try:
+        print("Loading model from:", MODEL_PATH)
+        print("Model size:", MODEL_PATH.stat().st_size)
+
         model = keras.models.load_model(
-        MODEL_PATH,
-        compile=False,
-        safe_mode=False
+            MODEL_PATH,
+            compile=False,
+            safe_mode=False,
         )
+
+        print("MODEL LOADED SUCCESSFULLY")
         return model, None
-    except Exception as exc:  
-        return None, f"Failed to load deployment weights: {exc}"
+
+    except Exception as exc:
+        traceback.print_exc()
+        print("MODEL ERROR:", repr(exc))
+        return None, str(exc)
 
 
 MODEL, MODEL_ERROR = load_model_once()
@@ -232,6 +240,8 @@ def index():
 @app.route("/analyze", methods=["POST"])
 def analyze():
     if MODEL is None:
+        print("MODEL =", MODEL)
+        print("MODEL_ERROR =", MODEL_ERROR)
         return jsonify({"success": False, "error": MODEL_ERROR or "Model is not available."}), 503
 
     if "image" not in request.files:
