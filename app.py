@@ -136,6 +136,10 @@ def load_model_once():
 
 
 MODEL, MODEL_ERROR = load_model_once()
+print("=" * 60)
+print("MODEL =", MODEL)
+print("MODEL_ERROR =", MODEL_ERROR)
+print("=" * 60)
 
 
 def allowed_file(filename: str) -> bool:
@@ -239,10 +243,13 @@ def index():
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
+    print("Analyze request received")
     if MODEL is None:
-        print("MODEL =", MODEL)
-        print("MODEL_ERROR =", MODEL_ERROR)
-        return jsonify({"success": False, "error": MODEL_ERROR or "Model is not available."}), 503
+        print("MODEL ERROR:", MODEL_ERROR)
+        return jsonify({
+            "success": False,
+            "error": MODEL_ERROR or "Model not loaded"
+        }), 503
 
     if "image" not in request.files:
         return jsonify({"success": False, "error": "Please upload an image before analyzing."}), 400
