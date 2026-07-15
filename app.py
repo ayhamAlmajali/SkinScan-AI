@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+os.environ["KERAS_BACKEND"] = "torch"
 
 import time
 import uuid
