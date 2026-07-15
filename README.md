@@ -1,52 +1,78 @@
 # SkinScan AI
 
-SkinScan AI is a production-style Flask web application that classifies skin diseases from an uploaded image using a trained TensorFlow / Keras model.
+SkinScan AI is an AI-powered web application for preliminary skin disease classification using deep learning. Users can upload a skin image and receive an AI prediction with confidence scores and disease information.
+
+> ⚠️ This system is intended for educational and preliminary screening purposes only. It is **not** a medical diagnosis.
+
+---
 
 ## Features
 
-- Flask backend with a single-load Keras model
-- Secure image upload flow with validation and saved uploads
-- 300x300 RGB preprocessing with normalization
-- JSON prediction API with top-3 probabilities
-- Modern responsive medical AI UI with drag-and-drop upload
-- Animated loading state, confidence bars, and result cards
-- Disease information cards with a medical disclaimer
+- AI-based skin disease classification
+- Flask web application
+- Modern responsive user interface
+- Drag-and-drop image upload
+- Confidence score visualization
+- Top-3 prediction probabilities
+- Disease description, symptoms, causes, and recommendations
+- Fast image preprocessing and inference
+
+---
+
+## Supported Classes
+
+- Acne
+- Eczema
+- Psoriasis
+- Skin Cancer
+- Unknown / Normal
+- Vitiligo
+
+---
 
 ## Project Structure
 
-```text
-SkinScan AI WebSite/
+```
+SkinScan-AI/
+│
 ├── app.py
 ├── requirements.txt
+├── README.md
+├── .gitignore
+│
 ├── model/
-│   └── best_model.keras
+│   └── SkinScanAI_Model.keras
+│
+├── notebooks/
+│   └── Train.ipynb
+│
 ├── static/
 │   ├── css/
-│   │   └── style.css
 │   ├── js/
-│   │   └── main.js
 │   └── uploads/
-├── templates/
-│   └── index.html
-└── README.md
+│
+└── templates/
+    └── index.html
 ```
+
+---
 
 ## Model Setup
 
-Place your trained Keras model at:
+The trained model is **not included** in this repository because GitHub does not allow files larger than 100 MB.
 
-```text
-model/best_model.keras
+Download the trained model from:
+
+**(ضع رابط Google Drive أو Hugging Face هنا)**
+
+After downloading, place it inside:
+
+```
+model/
+└── SkinScanAI_Model.keras
 ```
 
-The application expects six classes in this exact order:
-
-1. Acne
-2. Eczema
-3. Psoriasis
-4. SkinCancer
-5. Unknown_Normal
-6. Vitiligo
+---
 
 ## Installation
 
@@ -54,7 +80,9 @@ The application expects six classes in this exact order:
 pip install -r requirements.txt
 ```
 
-## Run
+---
+
+## Run the Application
 
 ```bash
 python app.py
@@ -62,27 +90,49 @@ python app.py
 
 Then open:
 
-```text
+```
 http://127.0.0.1:5000
 ```
 
-## API
+---
 
-### `POST /analyze`
+## Technologies Used
 
-Form field:
+- Python
+- Flask
+- TensorFlow
+- Keras
+- EfficientNetV2-B3
+- HTML5
+- CSS3
+- JavaScript
+- Pillow (PIL)
+- NumPy
 
-- `image`: uploaded image file
+---
 
-Response includes:
+## Dataset
 
-- predicted class
-- confidence
-- top 3 predictions
-- prediction time
-- uploaded image URL
-- disease information
+The dataset was collected from Kaggle and contains labeled skin disease images belonging to six classes.
+
+---
 
 ## Disclaimer
 
-This AI system is designed for educational and preliminary screening purposes only. It is NOT a medical diagnosis. Always consult a qualified dermatologist.
+This AI system is designed for educational and preliminary screening purposes only.
+
+It is **NOT** a medical diagnosis.
+
+Always consult a qualified dermatologist for professional medical advice.
+
+---
+
+## Author
+
+**Ayham Al-Majali**
+
+Data Science & Artificial Intelligence Student
+
+Mu'tah University
+
+GitHub: https://github.com/ayhamAlmajali
