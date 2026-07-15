@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkinScan AI | AI Skin Disease Detection</title>
+  <meta name="description" content="SkinScan AI analyzes skin images with a trained TensorFlow model and returns a fast preliminary screening result." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="page-shell">
+    <div class="bg-orb bg-orb-one"></div>
+    <div class="bg-orb bg-orb-two"></div>
+
+    <main class="app-grid">
+      <section class="hero-card glass-card">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="img" aria-label="SkinScan AI logo">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1d4ed8" />
+                  <stop offset="100%" stop-color="#7dd3fc" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="28" fill="url(#logoGradient)" opacity="0.16"></circle>
+              <path d="M20 34c0-6.6 5.4-12 12-12s12 5.4 12 12-5.4 12-12 12-12-5.4-12-12Zm6-3c1.2 0 2.2-1 2.2-2.2S27.2 26.6 26 26.6s-2.2 1-2.2 2.2 1 2.2 2.2 2.2Zm14 0c1.2 0 2.2-1 2.2-2.2S41.2 26.6 40 26.6s-2.2 1-2.2 2.2 1 2.2 2.2 2.2Z" fill="url(#logoGradient)"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-kicker">SkinScan AI</div>
+            <h1>SkinScan AI</h1>
+          </div>
+        </div>
+
+        <p class="subtitle">Upload a skin image and let Artificial Intelligence analyze it with a fast, polished medical screening experience.</p>
+
+        <div class="status-pills">
+          <span class="pill pill-primary">Keras 3 / PyTorch</span>
+          <span class="pill">300x300 RGB</span>
+          <span class="pill">Medical AI Preview</span>
+        </div>
+
+        <div class="uploader-card" id="dropZone">
+          <input id="imageInput" type="file" accept="image/*" hidden />
+          <div class="uploader-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 16V7m0 0-3.5 3.5M12 7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6.5 17.5h11A2.5 2.5 0 0 0 20 15v-2.2A4.8 4.8 0 0 0 15.2 8H15A5 5 0 0 0 5 9.2V15a2.5 2.5 0 0 0 1.5 2.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2>Drag & Drop Image</h2>
+          <p>Drop a JPG, PNG, WEBP, or BMP file here, or browse from your device.</p>
+          <div class="uploader-actions">
+            <button type="button" class="btn btn-secondary" id="browseButton">Choose File</button>
+            <button type="button" class="btn btn-primary" id="analyzeButton">Analyze Image</button>
+          </div>
+          <div class="file-meta" id="fileMeta">No image selected yet.</div>
+        </div>
+
+        <div class="preview-shell">
+          <div class="preview-card">
+            <div class="preview-label">Uploaded Preview</div>
+            <div class="preview-image-wrap">
+              <img id="previewImage" alt="Selected skin image preview" />
+              <div class="preview-placeholder" id="previewPlaceholder">Preview will appear here.</div>
+            </div>
+          </div>
+
+          <div class="result-card" id="resultCard">
+            <div class="complete-banner">
+              <span class="complete-icon">✓</span>
+              <span>AI Analysis Complete</span>
+            </div>
+            <div class="result-header">
+              <div>
+                <h3 id="resultLabel">Awaiting image upload</h3>
+              </div>
+              <span class="confidence-badge confidence-neutral" id="confidenceBadge">--</span>
+            </div>
+
+            <div class="result-metrics">
+              <div class="metric">
+                <span>Confidence</span>
+                <strong id="confidenceValue">--</strong>
+              </div>
+              <div class="metric">
+                <span>Prediction Time</span>
+                <strong id="predictionTime">--</strong>
+              </div>
+              <div class="metric">
+                <span>Image Resolution</span>
+                <strong id="imageResolution">--</strong>
+              </div>
+              <div class="metric">
+                <span>Upload Filename</span>
+                <strong id="uploadFilename">--</strong>
+              </div>
+            </div>
+
+            <div class="bars-group">
+              <div class="section-label">All Disease Probabilities</div>
+              <div id="topPredictions"></div>
+            </div>
+          </div>
+
+          <div class="analysis-summary-card glass-card" id="analysisSummaryCard">
+            <div class="section-label">Analysis Summary</div>
+            <p id="analysisSummary">Based on the uploaded image, the AI model will generate an automatic summary after analysis.</p>
+          </div>
+        </div>
+
+        <div class="info-card glass-card" id="infoCard">
+          <div class="section-label">Disease Insight</div>
+          <h3 id="infoTitle">Prediction details will appear here</h3>
+          <p id="infoDescription">The model result will populate this section with a helpful summary, likely symptoms, causes, and general recommendations.</p>
+          <div class="info-grid">
+            <div>
+              <h4>Common Symptoms</h4>
+              <ul id="infoSymptoms"></ul>
+            </div>
+            <div>
+              <h4>Possible Causes</h4>
+              <ul id="infoCauses"></ul>
+            </div>
+            <div>
+              <h4>General Recommendations</h4>
+              <ul id="infoRecommendations"></ul>
+            </div>
+          </div>
+          <div class="disclaimer-card">
+            <strong>Medical Disclaimer</strong>
+            <p>{{ disclaimer }}</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="glass-card stat-card">
+          <div class="section-label">Why SkinScan AI</div>
+          <h3>Fast, clear, and presentation-ready.</h3>
+          <p>A polished Flask interface, secure upload flow, single-load TensorFlow model, and professional result presentation for AI demos.</p>
+        </div>
+
+        <div class="glass-card stat-card">
+          <div class="section-label">Supported Classes</div>
+          <div class="class-list">
+            {% for label in class_names %}
+            <span>{{ label }}</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="glass-card stat-card note-card">
+          <div class="section-label">Model Status</div>
+          {% if model_ready %}
+          <h3>Model loaded successfully</h3>
+          <p>The Keras model is loaded once at application startup and ready for inference.</p>
+          {% else %}
+          <h3>Model file not found</h3>
+          <p>{{ model_error }}</p>
+          {% endif %}
+        </div>
+      </aside>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+      <div class="spinner"></div>
+      <p>Analyzing image with AI...</p>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    window.SKINSCAN_CONFIG = {
+      diseaseInfo: {{ disease_info | tojson }},
+      disclaimer: {{ disclaimer | tojson }},
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

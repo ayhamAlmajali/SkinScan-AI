@@ -1,0 +1,17 @@
+venv/
+__pycache__/
+*.pyc
+
+.ipynb_checkpoints/
+
+logs/
+logs_max_accuracy/
+logs_production/
+
+model/
+*.keras
+*.h5
+*.pt
+
+static/uploads/*
+!static/uploads/.gitignore
