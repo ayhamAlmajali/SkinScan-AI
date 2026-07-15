@@ -25,6 +25,18 @@ except ImportError as exc:
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "model" / "SkinScanAI_Model.keras"
+import gdown
+
+MODEL_URL = "https://drive.google.com/uc?id=1Tyfnyto2jjf31OSGTXIINyk4tytQVmqY"
+
+if not MODEL_PATH.exists():
+    print("Downloading AI model...")
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    gdown.download(
+        MODEL_URL,
+        str(MODEL_PATH),
+        quiet=False,
+    )
 UPLOAD_DIR = BASE_DIR / "static" / "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "bmp"}
 IMAGE_SIZE = (300, 300)
