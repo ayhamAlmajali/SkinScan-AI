@@ -18,6 +18,14 @@ except ImportError as exc:  # pragma: no cover - environment issue
 
 try:
     import keras
+    import tensorflow as tf
+    import sys
+
+    print("="*60)
+    print("Python:", sys.version)
+    print("TensorFlow:", tf.__version__)
+    print("Keras:", keras.__version__)
+    print("="*60)
     print("Keras Version:", keras.__version__)
     print("Backend:", keras.config.backend())
 except ImportError as exc:
