@@ -26,7 +26,6 @@ try:
     print("Keras:", keras.__version__)
     print("="*60)
     print("Keras Version:", keras.__version__)
-    print("Backend:", keras.config.backend())
 except ImportError as exc:
     raise RuntimeError("Keras 3 is required for SkinScan AI") from exc
 
@@ -112,6 +111,7 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 import traceback
 
 def load_model_once():
+    print("Loading model...")
     if not MODEL_PATH.exists():
         return None, f"Deployment weights file not found at {MODEL_PATH}"
 
@@ -133,8 +133,9 @@ def load_model_once():
         print("MODEL ERROR:", repr(exc))
         return None, str(exc)
 
-
+print("Before load_model")
 MODEL, MODEL_ERROR = load_model_once()
+print("After load_model")
 print("=" * 60)
 print("MODEL =", MODEL)
 print("MODEL_ERROR =", MODEL_ERROR)
