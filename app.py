@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 
 try:
     import numpy as np
-except ImportError as exc:  # pragma: no cover - environment issue
+except ImportError as exc:  
     raise RuntimeError("NumPy is required for SkinScan AI") from exc
 
 try:
