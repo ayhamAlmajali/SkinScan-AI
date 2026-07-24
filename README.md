@@ -63,7 +63,7 @@ The trained model is **not included** in this repository because GitHub does not
 
 Download the trained model from:
 
-**(ضع رابط Google Drive أو Hugging Face هنا)**
+https://drive.google.com/file/d/1Tyfnyto2jjf31OSGTXIINyk4tytQVmqY/view?usp=sharing
 
 After downloading, place it inside:
 
